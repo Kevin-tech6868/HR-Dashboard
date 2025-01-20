@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <link rel="Stylesheet" href="styles.css">
+    <style>
+        .field-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            user-select: none;
+        }
+
+        .field-container input {
+            margin-right: 10px;
+        }
+
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+        nav h1 {
+            cursor: pointer; /* Changes cursor to pointer when hovering */
+            user-select: none; /* Prevents text selection */
+        }
+        #jobForm{
+            user-select: none;  
+        }
+        #candidatesPage{
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>HR Dashboard</h1>
+</header>
+
+<div id="topbar-2">
+<nav>
+    <h1 onclick="showJobsPage()" class="text-1">Jobs Page</h1>
+    <h1 onclick="showCandidatesPage()" class="text-2">Candidates Page</h1>
+</nav>
+</div>
+
+<div id="content">
+    <!-- Jobs Page Content -->
+    <div id="jobsPage" style="display: none;">
+        <h2>Jobs Page</h2>
+        <button class="option-button-3" onclick="showCreateJob()">Create New Job</button>
+
+        <div id="createJob">
+            <h3>Create Job</h3>
+            <button class="option-button-1" onclick="showJobDescription()" id="showFormBtn">Job Description</button>
+        </div>
+
+        <form id="jobForm" class="hidden form-container" style="display: none;" method="POST">
+            <h2>Job Application Form</h2>
+            
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title...">
+            
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" placeholder="Enter location...">
+            
+            <label for="aboutRole">About Role:</label>
+            <textarea id="aboutRole" name="aboutRole" placeholder="Describe the role..."></textarea>
+            
+            <label for="requirements">Requirements:</label>
+            <textarea id="requirements" name="requirements" placeholder="Enter job requirements..."></textarea>
+            <br>
+
+            <!-- Add new text field feature -->
+            <br><br>
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+
+    <!-- Candidates Page Content -->
+    <div id="candidatesPage" style ="display: none;">
+        <h2>Candidates Page</h2>
+
+    
+        <button onclick="showJobDescriptionCandidates()">Apply for the Job</button>
+    
+        <form id="jobForm1" class="form-container" style="display: none;" method="POST">
+            <h2>Job Description</h2>
+    
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title...">
+    
+            <label for="aboutRole">About Role:</label>
+            <textarea id="aboutRole" name="aboutRole" placeholder="Describe the role..."></textarea>
+    
+            <label for="requirements">Requirements:</label>
+            <textarea id="requirements" name="requirements" placeholder="Enter job requirements..."></textarea>
+            <br>
+
+            <button type="button" onclick="redirectToApplication()">Apply now</button>
+
+        <script>
+             function redirectToApplication() {
+             window.location.href = "form.html";  // Redirect to application.html
+             }
+        </script>
+        </form>
+
+        <script>
+            function showJobDescriptionCandidates() {
+                document.getElementById("jobForm1").style.display = "block";
+            }
+
+            function submitForm() {
+                var jobTitle = document.getElementById('jobTitle').value;
+                var aboutRole = document.getElementById('aboutRole').value;
+                var requirements = document.getElementById('requirements').value;
+
+                // Send data using AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/submit-application/", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                    }
+                };
+                xhr.send("jobTitle=" + encodeURIComponent(jobTitle) + "&aboutRole=" + encodeURIComponent(aboutRole) + "&requirements=" + encodeURIComponent(requirements));
+            }
+
+            
+        </script>
+    </div>
+
+<script>
+    function showJobsPage() {
+        document.getElementById("jobsPage").style.display = "block";
+        document.getElementById("candidatesPage").style.display = "none";
+        document.getElementById("createJob").style.display = "none";
+    }
+
+    function showCandidatesPage() {
+        document.getElementById("jobsPage").style.display = "none";
+        document.getElementById("candidatesPage").style.display = "block";
+    }
+
+    function showCreateJob() {
+        document.getElementById("createJob").style.display = "block";
+    }
+
+    function showJobDescription() {
+        document.getElementById("jobForm").classList.remove("hidden");
+        document.getElementById("jobForm").style.display = "block";
+    }
+</script>
+
+</body>
+</html>

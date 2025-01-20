@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    <link rel="Stylesheet" href="styles.css">
+    <style>
+        nav h1 {
+            cursor: pointer; /* Changes cursor to pointer when hovering */
+            user-select: none; /* Prevents text selection */
+        }
+        .field-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            user-select: none;
+        }
+
+        .field-container input {
+            margin-right: 10px;
+            user-select: none;
+        }
+
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .field-container button {
+            background-color: #FF5C5C;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            user-select: none;
+        }
+
+        .field-container button:hover {
+            background-color: #FF0000;
+            user-select: none;
+        }
+
+        .remove-btn {
+            margin-left: 10px;
+            user-select: none;
+        }
+
+        .new-fields-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            user-select: none;
+        }
+
+        .new-fields-section button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            user-select: none;
+        }
+
+        .new-fields-section button:hover {
+            background-color: #218838;
+            user-select: none;
+        }
+
+        .new-fields-section input {
+            font-size: 1rem;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            margin-bottom: 10px;
+            user-select: none;
+        }
+
+        .new-fields-section input:focus {
+            border-color: #007BFF;
+            outline: none;
+            user-select: none;
+        }
+
+        .submit-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+            user-select: none;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            user-select: none;
+        }
+
+        .form-container h2 {
+            color: #007BFF;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            user-select: none;
+        }
+
+        .field-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        .field-container input,
+        .field-container textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+            user-select: none;
+        }
+
+        .field-container input:focus,
+        .field-container textarea:focus {
+            border-color: #007BFF;
+            outline: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>HR Dashboard</h1>
+</header>
+
+<div id="topbar-2">
+<nav>
+    <h1 onclick="showJobsPage()" class="text-1">Jobs Page</h1>
+    <h1 onclick="showCandidatesPage()" class="text-2">Candidates Page</h1>
+</nav>
+</div>
+
+<div id="content">
+    <!-- Jobs Page Content -->
+    <div id="jobsPage" style="display: none;">
+        <h2>Jobs Page</h2>
+        <button class="option-button-3" onclick="showCreateJob()">Create New Job</button>
+
+        <div id="createJob">
+            <h3>Create Job</h3>
+            <button class="option-button-1" onclick="showJobDescription()" id="showFormBtn">Job Description</button>
+        </div>
+
+        <form id="jobForm" class="hidden form-container" style="display: none;" method="POST">
+            <h2>Job Application Form</h2>
+            <div class="field-container" id="jobTitleField">
+                <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title...">
+                <button type="button" class="remove-btn" onclick="deleteField('jobTitleField')">Delete</button>
+            </div>
+    
+            <!-- Location Field -->
+            <div class="field-container" id="locationField">
+                <input type="text" id="location" name="location" placeholder="Enter location...">
+                <button type="button" class="remove-btn" onclick="deleteField('locationField')">Delete</button>
+            </div>
+    
+            <!-- About Role Field -->
+            <div class="field-container" id="aboutRoleField">
+                <textarea id="aboutRole" name="aboutRole" placeholder="Describe the role..."></textarea>
+                <button type="button" class="remove-btn" onclick="deleteField('aboutRoleField')">Delete</button>
+            </div>
+    
+            <!-- Requirements Field -->
+            <div class="field-container" id="requirementsField">
+                <textarea id="requirements" name="requirements" placeholder="Enter job requirements..."></textarea>
+                <button type="button" class="remove-btn" onclick="deleteField('requirementsField')">Delete</button>
+            </div>
+    
+            <!-- New Fields Container -->
+            <div class="new-fields-section">
+                <h3>Add New Fields</h3>
+                <div id="newFieldsContainer"></div>
+                <button type="button" onclick="addNewField()">Add New Field</button>
+            </div>
+    
+            <br><br>
+            <button type="submit" class="submit-btn">Submit Application</button>
+        </form>
+    </div>
+    
+    <script>
+        let fieldCount = 0; // Field counter for unique IDs
+
+    
+        // Function to delete a specific field
+        function deleteField(fieldId) {
+            const field = document.getElementById(fieldId);
+            field.remove();
+        }
+    
+        // Function to add new text fields dynamically
+        function addNewField() {
+            fieldCount++;
+            const container = document.getElementById('newFieldsContainer');
+    
+            // Create a new div container for the field and remove button
+            const newField = document.createElement('div');
+            newField.classList.add('field-container');
+            newField.setAttribute('id', 'dynamicField-' + fieldCount);
+    
+            // Create the input field
+            const inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.name = 'dynamicField' + fieldCount;
+            inputField.placeholder = 'Enter additional field...';
+    
+            // Create the delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('remove-btn');
+            deleteButton.innerHTML = 'Delete';
+            deleteButton.setAttribute('onclick', `deleteField('dynamicField-${fieldCount}')`);
+    
+            // Append the input field and delete button to the div container
+            newField.appendChild(inputField);
+            newField.appendChild(deleteButton);
+    
+            // Append the new field container to the main container
+            container.appendChild(newField);
+        }
+    </script>
+
+    <!-- Candidates Page Content -->
+    <div id="candidatesPage" style ="display: none;">
+        <h2>Candidates Page</h2>
+
+    
+        <button onclick="showJobDescriptionCandidates()">Apply for the Job</button>
+    
+        <form id="jobForm1" class="form-container" style="display: none;" method="POST">
+            <h2>Job Description</h2>
+    
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title...">
+    
+            <label for="aboutRole">About Role:</label>
+            <textarea id="aboutRole" name="aboutRole" placeholder="Describe the role..."></textarea>
+    
+            <label for="requirements">Requirements:</label>
+            <textarea id="requirements" name="requirements" placeholder="Enter job requirements..."></textarea>
+            <br>
+
+            <button type="button" onclick="redirectToApplication()">Apply now</button>
+
+        <script>
+             function redirectToApplication() {
+             window.location.href = "application.html";  // Redirect to application.html
+             }
+        </script>
+        </form>
+
+        <script>
+            function showJobDescriptionCandidates() {
+                document.getElementById("jobForm1").style.display = "block";
+            }
+
+            function submitForm() {
+                var jobTitle = document.getElementById('jobTitle').value;
+                var aboutRole = document.getElementById('aboutRole').value;
+                var requirements = document.getElementById('requirements').value;
+
+                // Send data using AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/submit-application/", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        alert(response.message);
+                    }
+                };
+                xhr.send("jobTitle=" + encodeURIComponent(jobTitle) + "&aboutRole=" + encodeURIComponent(aboutRole) + "&requirements=" + encodeURIComponent(requirements));
+            }
+
+
+            // Function to add new text fields
+            function addNewField() {
+                fieldCount++;
+                const container = document.getElementById('newFieldsContainer');
+
+                // Create a new div container for the field and remove button
+                const newField = document.createElement('div');
+                newField.classList.add('field-container');
+                newField.setAttribute('id', 'field-' + fieldCount);
+
+                // Create the input field
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.name = 'dynamicField' + fieldCount;
+                inputField.placeholder = 'Enter additional field...';
+
+                // Create the delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('remove-btn');
+                deleteButton.innerHTML = 'Delete';
+                deleteButton.setAttribute('onclick', `deleteField('field-${fieldCount}')`);
+
+                // Append the input field and delete button to the div container
+                newField.appendChild(inputField);
+                newField.appendChild(deleteButton);
+
+                // Append the new field container to the main container
+                container.appendChild(newField);
+            }
+
+            // Function to delete a text field
+            function deleteField(fieldId) {
+                const field = document.getElementById(fieldId);
+                field.remove();
+            }
+        </script>
+    </div>
+
+<script>
+    function showJobsPage() {
+        document.getElementById("jobsPage").style.display = "block";
+        document.getElementById("candidatesPage").style.display = "none";
+        document.getElementById("createJob").style.display = "none";
+    }
+
+    function showCandidatesPage() {
+        document.getElementById("jobsPage").style.display = "none";
+        document.getElementById("candidatesPage").style.display = "block";
+    }
+
+    function showCreateJob() {
+        document.getElementById("createJob").style.display = "block";
+    }
+
+    function showJobDescription() {
+        document.getElementById("jobForm").classList.remove("hidden");
+        document.getElementById("jobForm").style.display = "block";
+    }
+</script>
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Application Form</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Styles to center the form */
+        .form-container {
+            display: flex;
+            justify-content: center;  /* Horizontally center */
+            align-items: center;    /* Vertically center */
+            min-height: 100vh;     /* Ensure full viewport height */
+            flex-direction: column; /* Align items in a column */
+            width: 80%;             /* Adjust width as needed */
+            margin: 0 auto;        /* Center the container */
+        }
+
+        /* Style form fields to be below labels */
+        label {
+            display: block;       /* Make labels block elements */
+            margin-bottom: 5px; 
+        }
+
+
+        fieldset {
+            border: 1px solid #ddd;
+            padding: 20px; /* Add some internal padding */
+            margin: 15px 0; /* Add margin between fieldsets */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Job Application Form</h2>
+        <form method="post" id="application-form">
+            {% csrf_token %}
+            
+            
+            <!-- Personal Information Section -->
+            <fieldset>
+                <legend>Personal Information</legend>
+                {{ form.full_name.label_tag }} {{ form.full_name }}
+                {{ form.contact_info.label_tag }} {{ form.contact_info }}
+                {{ form.address.label_tag }} {{ form.address }}
+                {{ form.linkedin_profile.label_tag }} {{ form.linkedin_profile }}
+            </fieldset>
+
+            <!-- Education Section -->
+            <fieldset>
+                <legend>Education</legend>
+                {{ form.education.background.label_tag }} {{ form.education.background }}
+                {{ form.education.certifications.label_tag }} {{ form.education.certifications }}
+                {{ form.education.gap_years.label_tag }} {{ form.education.gap_years }}
+            </fieldset>
+
+            <!-- Position Information Section -->
+            <fieldset>
+                <legend>Position Information</legend>
+                {{ form.job_title.label_tag }} {{ form.job_title }}
+                {{ form.desired_salary.label_tag }} {{ form.desired_salary }}
+                {{ form.availability_date.label_tag }} {{ form.availability_date }}
+                {{ form.employment_status.label_tag }} {{ form.employment_status }}
+            </fieldset>
+
+            <!-- Professional Experience Section -->
+            <fieldset>
+                <legend>Professional Experience</legend>
+                {{ form.experience.work_history.label_tag }} {{ form.experience.work_history }}
+                {{ form.experience.skills.label_tag }} {{ form.experience.skills }}
+                {{ form.experience.projects_portfolio.label_tag }} {{ form.experience.projects_portfolio }}
+            </fieldset>
+
+            <!-- Personal Attributes Section -->
+            <fieldset>
+                <legend>Personal Attributes</legend>
+                {{ form.attributes.cover_letter.label_tag }} {{ form.attributes.cover_letter }}
+                {{ form.attributes.strengths.label_tag }} {{ form.attributes.strengths }}
+                {{ form.attributes.weaknesses.label_tag }} {{ form.attributes.weaknesses }}
+                {{ form.attributes.references.label_tag }} {{ form.attributes.references }}
+            </fieldset>
+
+            <!-- Other Information Section -->
+            <fieldset>
+                <legend>Other Information</legend>
+                {{ form.languages.label_tag }} {{ form.languages }}
+                {{ form.location_preferences.label_tag }} {{ form.location_preferences }}
+                {{ form.opportunity_info.label_tag }} {{ form.opportunity_info }}
+                {{ form.legal_agreements.label_tag }} {{ form.legal_agreements }}
+            </fieldset>
+
+            <!-- Role-based Questions Section -->
+            <!--<fieldset>
+                <legend>Role-based Questions</legend>
+                {{ form.role.label_tag }} {{ form.role }}
+                <div id="questions-container"></div>
+            </fieldset>
+            <button type="submit">Submit Application</button>-->
+
+            {% for field in form %}
+             <div class="form-field"> {{ field.label_tag }} {{ field }} </div>  </br>
+            {% endfor %}
+
+            <fieldset>  <!--- Render role dropdown using Django's form field -->
+                <legend>Role-based Questions</legend>
+                {{ form.role.label_tag }} {{ form.role }}
+
+                <div id="questions-container"></div>  
+            </fieldset>
+
+            <!-- <fieldset>
+                <legend>Role-based Questions</legend>
+                <label for="role">Select Role:</label>
+                <select id="role" name="role" onchange="showQuestions()">
+                    <option value="">-- Select a Role --</option>
+                    <option value="Developer">Developer</option>
+                    <option value="Designer">Designer</option>
+                    <option value="Project Manager">Project Manager</option>
+                </select> -->
+
+                <!-- Questions Field -->
+                <!-- <div id="questions-container"> -->
+                    <!-- Questions will be dynamically populated here based on selected role -->
+                <!-- </div> -->
+            <!-- </fieldset> -->
+
+            <!--
+            <fieldset>
+                <legend>Role-based Questions</legend>
+                {{ form.role.label_tag }} {{ form.role }}
+ 
+                <div id="questions-container"></div> 
+            </fieldset>
+            -->
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+
+    <!-- JavaScript for dynamic question display based on role -->
+    <script>
+        const questions = {
+            "Developer": [
+                "What programming languages are you proficient in?",
+                "Describe a project where you implemented complex logic.",
+                "How do you ensure code quality in your work?"
+            ],
+            "Designer": [
+                "What design tools do you use regularly?",
+                "Describe a challenging design project and how you solved it.",
+                "How do you approach user-centered design?"
+            ],
+            "Project Manager": [
+                "What project management tools are you familiar with?",
+                "How do you handle project deadlines and client expectations?",
+                "Describe a successful project you led from start to finish."
+            ],
+            // ... (Questions for other roles)
+        };
+
+        function showQuestions() {
+            const role = document.getElementById("role").value;
+            const questionsContainer = document.getElementById("questions-container");
+            questionsContainer.innerHTML = "";
+
+            // if (role in questions) {
+            //     questions[role].forEach((question, index) => {
+            //         const questionLabel = document.createElement("label");
+            //         questionLabel.innerHTML = question;
+            //         const questionInput = document.createElement("input");
+            //         questionInput.type = "text";
+            //         questionInput.name = `question_${index + 1}`;
+            //         questionInput.required = true;
+
+            //         questionsContainer.appendChild(questionLabel);
+            //         questionsContainer.appendChild(questionInput);
+
+            if (role in questions) {
+                questions[role].forEach(q => {
+                    const label = document.createElement("label");
+                    label.textContent = q;  // Use question directly as textContent
+
+                    const input = document.createElement("input");  // Create input for all question types
+                    input.type = "text";
+                    input.name = `questions_answers.${role}.${q}`; // Correct name format
+
+                    questionsContainer.appendChild(label);
+                    questionsContainer.appendChild(input);
+                    questionsContainer.appendChild(document.createElement("br"));
+                });
+            }
+        }
+        
+        document.getElementById("role").addEventListener("change", showQuestions);
+        // document.getElementById("application-form").addEventListener("submit", function(event) {
+        //     event.preventDefault(); // Prevent default form submission
+
+        //     const formData = new FormData(this); // Get the form data
+
+        //     // Add dynamic question answers to formData
+        //     const questionsContainer = document.getElementById("questions-container");
+        //     const inputs = questionsContainer.querySelectorAll("input, textarea, select");
+        //     inputs.forEach(input => {
+        //         formData.append(input.name, input.value);
+        //     });
+
+        //     fetch("", {  // Send data via AJAX (replace "" with your form action URL if different)
+        //         method: "POST",
+        //         body: formData
+        //     })
+        //     .then(response => {
+        //         if (response.ok) {
+        //             window.location.href = "{% url 'application_submitted' %}"; // Redirect on success
+        //         } else {
+        //             // Handle errors (e.g., display error message)
+        //             console.error("Form submission failed");
+        //         }
+        //     });
+        // });
+
+        // document.getElementById("role").addEventListener("change", showQuestions);
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #a7a7a7;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #0e0e0e;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+nav button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #0a0b0a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+nav button:hover {
+    background-color: #45a049;
+}
+#content {
+    text-align: center;
+    margin: 50px;
+}
+#createJob {
+    display: none;
+    margin: 20px;
+}
+.option-button-1 {
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.option-button-1:hover {
+    background-color: #007bb5;
+}
+.option-button-2 {
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.option-button-2:hover {
+    background-color: #007bb5;
+}
+.option-button-3 {
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.option-button-3:hover {
+    background-color: #007bb5;
+}
+#topbar-2{
+    display: flex;
+    flex-direction: column;
+    background-color: grey;
+    color: white;
+}   
+.text-1{
+    display: inline-block;
+    margin-right: 3%;
+    cursor: pointer;
+    margin-left: 50px;
+}
+.text-1:hover{
+    opacity: 0.7;
+    
+}
+.form-container{
+    display: none;
+}
+.hidden {
+    display: none;
+  }
+
+  .form-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input, textarea {
+    width: 50%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+.text-2{
+    display: inline-block;
+    margin-right: 3%;
+    cursor: pointer;
+    margin-left: 50px;
+}
+.text-2:hover{
+    opacity: 0.7;
+}
+    
